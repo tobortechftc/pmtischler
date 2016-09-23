@@ -5,26 +5,26 @@ import com.github.pmtischler.base.Vector2d;
 /**
  * Feedback linearization and wheel mapping to convert robot velocity to wheels.
  * Feedback linearization to convert robot velocity to forward and angular.
- *   v_x = desired velocity x in robot frame
- *   v_y = desired velocity y in robot frame
- *   ε = feedback linearization epsilon
- *   v_f = forward velocity 
- *   ω  = angular velocity
+ *   v_x = desired velocity x in robot frame.
+ *   v_y = desired velocity y in robot frame.
+ *   ε = feedback linearization epsilon.
+ *   v_f = forward velocity.
+ *   ω  = angular velocity.
  *   Equation:
- *     v_f = v_x
- *     ω  = v_y / ε
+ *     v_f = v_x.
+ *     ω  = v_y / ε.
  * Convert forward and angular velocity into wheel velocities:
- *   ω = angular velocity
- *   ω_{L,R} = left and right wheel angular velocities
- *   R = wheel radius
- *   L = baseline between wheels
- *   v_f = forward velocity
+ *   ω = angular velocity.
+ *   ω_{L,R} = left and right wheel angular velocities.
+ *   R = wheel radius.
+ *   L = baseline between wheels.
+ *   v_f = forward velocity.
  *   Characteristic equations:
- *     ω = R (ω_R - ω_L) / L
- *     v_f = R (ω_R + ω_L) / 2
+ *     ω = R (ω_R - ω_L) / L.
+ *     v_f = R (ω_R + ω_L) / 2.
  *   Solving for ω_R and ω_L:
- *     ω_L = V_f / R - ω * L / (2R)
- *     ω_R = V_f / R + ω * L / (2R)
+ *     ω_L = V_f / R - ω * L / (2R).
+ *     ω_R = V_f / R + ω * L / (2R).
  */
 public class FeedbackLinearizer {
     /**
