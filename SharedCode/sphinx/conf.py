@@ -49,6 +49,7 @@ latex_elements = {
 latex_documents = [
     (master_doc, 'FirstFtcAppPmtischler.tex',
      u'Documentation for Customization of FIRST FTC App for Improved Development.',
+     u'Phillip Tischler',
      'manual'),
 ]
 
