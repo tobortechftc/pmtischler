@@ -46,6 +46,24 @@ public class Vector2d {
         this.y -= other.y;
     }
 
+    /**
+     * Multiply the vector by the given constant.
+     * @param v The constant to multiply by.
+     */
+    public void mul(double v) {
+        this.x *= v;
+        this.y *= v;
+    }
+
+    /**
+     * Divide the vector by the given constant.
+     * @param v The constant to divide by.
+     */
+    public void div(double v) {
+        this.x /= v;
+        this.y /= v;
+    }
+
     // The x position.
     private double x;
     // The y position.

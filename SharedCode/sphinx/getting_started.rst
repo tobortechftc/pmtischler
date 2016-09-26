@@ -161,9 +161,9 @@ will allow you to use the code contained in those files.
 
 .. code-block:: java
 
-	import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-	import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-	import com.qualcomm.robotcore.hardware.DcMotor;
+    import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+    import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+    import com.qualcomm.robotcore.hardware.DcMotor;
 
 **Register the Robot Class**. The base code uses annotations to register the
 class as an OpMode, which will allow it to be selected in the robot's UI. Add
@@ -181,7 +181,7 @@ we set the power. Add the following member variable to the class.
 
 .. code-block:: java
 
-    public DcMotor motor = null;
+    private DcMotor motor = null;
 
 **Initialize the Robot**. The next step is to initialize the robot and set the
 robot's motor variable. The ``init`` function is called when the robot is
@@ -211,25 +211,25 @@ final code you should have.
 
 .. code-block:: java
 
-	package org.firstinspires.ftc.teamcode;
+    package org.firstinspires.ftc.teamcode;
 
-	import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-	import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-	import com.qualcomm.robotcore.hardware.DcMotor;
+    import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+    import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+    import com.qualcomm.robotcore.hardware.DcMotor;
 
-	@TeleOp(name="FullPower", group="FullPower")
-	public class FullPower extends OpMode {
-		public DcMotor motor = null;
+    @TeleOp(name="FullPower", group="FullPower")
+    public class FullPower extends OpMode {
+        private DcMotor motor = null;
 
-		public void init() {
-			motor = hardwareMap.dcMotor.get("motor");
-		}
+        public void init() {
+            motor = hardwareMap.dcMotor.get("motor");
+        }
 
-		public void loop() {
-			motor.setPower(1.0);
-		}
-	}
+        public void loop() {
+            motor.setPower(1.0);
+        }
+    }
 
 You now have an end-to-end example of programming a robot. Save everything,
 commit it to Git, and push it so it's in the cloud. From here you can continue
-to more advanced things in the :doc:`tutorials`.
+to more advanced things in the :doc:`tutorials/tutorials`.

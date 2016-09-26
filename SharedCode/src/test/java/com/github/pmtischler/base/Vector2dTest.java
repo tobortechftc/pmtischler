@@ -38,4 +38,22 @@ public class Vector2dTest {
         assertEquals(-2, v.getX(), diffThresh);
         assertEquals(-2, v.getY(), diffThresh);
     }
+
+    @Test
+    // Test mul().
+    public void testMul() {
+        Vector2d v = new Vector2d(1, 2);
+        v.mul(3);
+        assertEquals(3, v.getX(), diffThresh);
+        assertEquals(6, v.getY(), diffThresh);
+    }
+
+    @Test
+    // Test div().
+    public void testDiv() {
+        Vector2d v = new Vector2d(3, 6);
+        v.div(3);
+        assertEquals(1, v.getX(), diffThresh);
+        assertEquals(2, v.getY(), diffThresh);
+    }
 }

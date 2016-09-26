@@ -24,7 +24,7 @@ Contents
    :maxdepth: 3
 
    getting_started
-   tutorials
+   tutorials/tutorials
    javasphinx/packages
 
 
