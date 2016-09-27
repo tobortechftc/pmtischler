@@ -68,7 +68,8 @@ rotations per second). The desired robot velocity has units (inches per
 second), whereas the joystick value is unitless (a percentage of range of
 motion). You need a mapping between joystick value and max speed. Using the
 ``TankDrive`` program from before, measure the max forward speed of the robot
-in inches per second, and then add the following variable.
+in inches per second, in it's lightest configuration, and then add the
+following variable.
 
 .. code-block:: java
 
@@ -78,12 +79,12 @@ in inches per second, and then add the following variable.
 but the robot can only control motor power. What motor power should you set to
 achieve a specific wheel speed? That is a complicated question as it depends on
 the motor, the wheel, the weight of the robot, the wind drag, the wheel slip,
-etc.  In the :doc:`pid_control` tutorial we will discuss a way to dynamically
+etc. In the :doc:`pid_control` tutorial we will discuss a way to dynamically
 deal with this problem. For now, we will make a simplifying assumption that
 wheel speed is linear with motor power, and that at max power you achieve max
-speed.  Measure the max rotation speed of the wheel when the robot is moving at
-max speed. Add the following variable to add this constant as radians per
-second.
+speed. Measure the max rotation speed of the wheel when the robot is lifted up
+so the wheels aren't feeling resistance. Add the following variable to add this
+constant as radians per second.
 
 .. code-block:: java
 

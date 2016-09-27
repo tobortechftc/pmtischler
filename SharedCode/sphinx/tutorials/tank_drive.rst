@@ -12,7 +12,7 @@ should name the robots the following:
 - ``rightFront``
 - ``rightBack``
 
-**Skeleton**. The following code block contains the standard skeleton of code
+Skeleton**. The following code block contains the standard skeleton of code
 that every robot program will be based on. Create a new class under
 ``TeamCode/java/org.firstinspires.ftc.teamcode`` and call it
 ``TankDrive.java``. Add the following code to the file:

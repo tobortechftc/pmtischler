@@ -6,6 +6,8 @@ extensions = [
     'javasphinx',
     'sphinx.ext.autodoc',
     'sphinx.ext.graphviz',
+    'sphinx.ext.mathbase',
+    'sphinx.ext.mathjax',
     'sphinx.ext.napoleon',
 ]
 
