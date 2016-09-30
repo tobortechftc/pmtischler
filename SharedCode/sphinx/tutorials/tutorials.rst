@@ -13,6 +13,4 @@ over time.
    feedback_linearization
    pid_control
    record_playback
-   dead_reckon
-   path_planning
    beacon_color
