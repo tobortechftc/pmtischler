@@ -12,5 +12,6 @@ over time.
    tank_drive
    feedback_linearization
    pid_control
+   mecanum
    record_playback
    beacon_color
