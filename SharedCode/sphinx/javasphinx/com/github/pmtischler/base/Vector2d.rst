@@ -33,6 +33,16 @@ add
 
    :param other: The other vector to add to this one.
 
+div
+^^^
+
+.. java:method:: public void div(double v)
+   :outertype: Vector2d
+
+   Divide the vector by the given constant.
+
+   :param v: The constant to divide by.
+
 getX
 ^^^^
 
@@ -48,6 +58,16 @@ getY
    :outertype: Vector2d
 
    :return: Gets the Y position.
+
+mul
+^^^
+
+.. java:method:: public void mul(double v)
+   :outertype: Vector2d
+
+   Multiply the vector by the given constant.
+
+   :param v: The constant to multiply by.
 
 sub
 ^^^

@@ -62,6 +62,15 @@ changing this variable, without having to change your code.
 
   private final boolean shouldMecanumDrive = true;
 
+**Add Mecanum Import**. We've provided utility functions to perform the base
+Mecanum calculation. It takes the desired robot speed, velocity angle, and
+rotation speed. It returns the speeds of each motor after clamping. In order to
+use it, you'll need to import the code.
+
+.. code-block:: java
+
+  import com.github.pmtischler.control.Mecanum;
+
 **Add Mecanum Drive**. The mecanum drive is a straightforward implementation of
 the formulas above. Update the ``loop`` function with the following code.
 

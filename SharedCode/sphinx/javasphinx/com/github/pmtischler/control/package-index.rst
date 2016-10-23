@@ -7,5 +7,7 @@ com.github.pmtischler.control
    :maxdepth: 1
 
    FeedbackLinearizer
+   Mecanum
+   Mecanum-Wheels
    Pid
 
