@@ -43,25 +43,15 @@ for joysticks :math:`J_x`.
     \theta_d &= arctan(J_{left, y}, J_{left x}) \\
     V_\theta &= J_{right, x}
 
-**Add N-Motor Clamping**. Previously we wrote ``clampPowers`` which took 2
-motor powers, left and right, and clamped them to 100%. We have the same need
-here- we need to clamp the motor power to 100% while maintaining the ratio of
-motor powers to maintain angle and rotation speed. Add the following
-``clampPowers`` function next to the previous version.
+These functions don't account for bounded outputs. That is, the joystick inputs
+can yield an output power greater than 100%, which isn't possible. In order to
+maintain intent of control, we need to preserve the ratios of the motors. We
+can do this by scaling the motors uniformly by the max magnitude, effectively
+normalizing to 100%.
 
-.. code-block:: java
+.. math::
 
-  public void clampPowers(List<double> powers) {
-    double minPower = Collections.min(powers);
-    double maxPower = Collections.max(powers);
-    double maxMag = Math.max(Math.abs(minPower), Math.abs(maxPower));
-
-    if (maxMag > 1.0) {
-      for (int i = 0; i < powers.size(); i++) {
-        powers[i] /= maxMag;
-      }
-    }
-  }
+    V_{motor, i} = \frac{V_{motor, i}}{max_j V_{motor, j}}
 
 **Add Mode Select**. We want the ability to control the robot with mecanum
 wheels or with regular wheels. Add the following member variable which will
@@ -84,17 +74,12 @@ the formulas above. Update the ``loop`` function with the following code.
         double thetaD = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x);
         double vTheta = gamepad1.right_stick_x;
 
-        double leftFront = vD * Math.sin(thetaD + Math.PI / 4) + vTheta;
-        double rightFront = vD * Math.cos(thetaD + Math.PI / 4) - vTheta;
-        double leftBack = vD * Math.cos(thetaD + Math.PI / 4) + vTheta;
-        double rightBack = vD * Math.sin(thetaD + Math.PI / 4) - vTheta;
-
-        List<double> motors = Arrays.asList(leftFront, rightFront, leftBack, rightBack);
-        clampPowers(motors);
-        leftFrontMotor.setPower(motors[0]);
-        rightFrontMotor.setPower(motors[1]);
-        leftBackMotor.setPower(motors[2]);
-        rightBackMotor.setPower(motors[3]);
+        // Convert desired motion to wheel powers, with power clamping.
+        Mecanum.Wheels wheels = Mecanum.motionToWheels(vD, thetaD, vTheta);
+        leftFrontMotor.setPower(wheels.frontLeft);
+        rightFrontMotor.setPower(wheels.frontRight);
+        leftBackMotor.setPower(wheels.backLeft);
+        rightBackMotor.setPower(wheels.backRight);
     } else {
         // ... previous loop code.
     }

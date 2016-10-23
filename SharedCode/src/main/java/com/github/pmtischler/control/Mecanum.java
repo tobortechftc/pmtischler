@@ -44,6 +44,7 @@ public class Mecanum {
      * @param vD The desired robot speed. [-1, 1]
      * @param thetaD The angle at which the robot should move. [0, 2PI]
      * @param vTheta The desired rotation velocity. [-1, 1]
+     * @return The wheels with clamped powers. [-1, 1]
      */
     public static Wheels motionToWheels(double vD, double thetaD, double vTheta) {
         double frontLeft = vD * Math.sin(thetaD + Math.PI / 4) + vTheta;
