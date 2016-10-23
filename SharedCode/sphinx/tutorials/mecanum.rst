@@ -51,8 +51,8 @@ normalizing to 100%.
 
 .. math::
 
-    V_max &= max_j V_{motor, j}
-    V_{motor, i} &= \frac{V_{motor, i}}{V_max}
+    V_{max} &= max_j V_{motor, j} \\
+    V_{motor, i} &= \frac{V_{motor, i}}{V_{max}}
 
 :doc:`../javasphinx/com/github/pmtischler/control/Mecanum`. One of the custom
 additions in `pmtischler/ftc_app <https://github.com/pmtischler/ftc_app>`__ is
