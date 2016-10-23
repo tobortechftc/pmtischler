@@ -51,7 +51,8 @@ normalizing to 100%.
 
 .. math::
 
-    V_{motor, i} = \frac{V_{motor, i}}{max_j V_{motor, j}}
+    V_max &= max_j V_{motor, j}
+    V_{motor, i} &= \frac{V_{motor, i}}{V_max}
 
 **Add Mode Select**. We want the ability to control the robot with mecanum
 wheels or with regular wheels. Add the following member variable which will
