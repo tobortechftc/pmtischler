@@ -80,8 +80,8 @@ the formulas above. Update the ``loop`` function with the following code.
   public void loop() {
     if (shouldMecanumDrive) {
         double vD = Math.sqrt(Math.pow(gamepad1.left_stick_x, 2) +
-                              Math.pow(gamepad1.left_stick_y, 2))
-        double thetaD = Math.atan(gamepad1.left_stick_y, gamepad1.left_stick_x);
+                              Math.pow(gamepad1.left_stick_y, 2));
+        double thetaD = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x);
         double vTheta = gamepad1.right_stick_x;
 
         double leftFront = vD * Math.sin(thetaD + Math.PI / 4) + vTheta;
