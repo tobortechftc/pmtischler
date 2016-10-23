@@ -54,6 +54,17 @@ normalizing to 100%.
     V_max &= max_j V_{motor, j}
     V_{motor, i} &= \frac{V_{motor, i}}{V_max}
 
+:doc:`../javasphinx/com/github/pmtischler/control/Mecanum`. One of the custom
+additions in `pmtischler/ftc_app <https://github.com/pmtischler/ftc_app>`__ is
+a class to perform the Mecanum calculation.  It takes the desired robot speed,
+velocity angle, and rotation speed. It returns the speeds of each motor after
+clamping. In order to use it, you'll need to import the code.
+
+.. code-block:: java
+
+  import com.github.pmtischler.control.Mecanum;
+
+
 **Add Mode Select**. We want the ability to control the robot with mecanum
 wheels or with regular wheels. Add the following member variable which will
 select between the two. This will allow you to select the control style by
@@ -62,15 +73,6 @@ changing this variable, without having to change your code.
 .. code-block:: java
 
   private final boolean shouldMecanumDrive = true;
-
-**Add Mecanum Import**. We've provided utility functions to perform the base
-Mecanum calculation. It takes the desired robot speed, velocity angle, and
-rotation speed. It returns the speeds of each motor after clamping. In order to
-use it, you'll need to import the code.
-
-.. code-block:: java
-
-  import com.github.pmtischler.control.Mecanum;
 
 **Add Mecanum Drive**. The mecanum drive is a straightforward implementation of
 the formulas above. Update the ``loop`` function with the following code.

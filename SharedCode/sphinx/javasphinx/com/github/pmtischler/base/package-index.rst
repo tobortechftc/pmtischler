@@ -6,5 +6,12 @@ com.github.pmtischler.base
 .. toctree::
    :maxdepth: 1
 
+   BlackBox
+   BlackBox-Player
+   BlackBox-Recorder
+   TimeseriesStream
+   TimeseriesStream-DataPoint
+   TimeseriesStream-Reader
+   TimeseriesStream-Writer
    Vector2d
 

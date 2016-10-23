@@ -7,6 +7,8 @@ com.github.pmtischler.opmode
    :maxdepth: 1
 
    MecanumDrive
+   PlaybackAuto
+   RecordedTeleop
    RobotHardware
    RobotHardware-MotorName
    TankDrive

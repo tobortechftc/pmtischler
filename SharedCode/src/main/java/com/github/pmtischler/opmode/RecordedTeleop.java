@@ -47,6 +47,8 @@ public class RecordedTeleop extends MecanumDrive {
      * Closes the file to flush recorded data.
      */
     public void stop() {
+        super.stop();
+
         try {
             outputStream.close();
         } catch (Exception e) {
