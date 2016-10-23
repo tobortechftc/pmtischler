@@ -1,7 +1,6 @@
 package com.github.pmtischler.base;
 
 import java.io.EOFException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -32,7 +31,7 @@ public class TimeseriesStream {
          * @param timestamp The time of the data point.
          * @param value The value of the variable.
          */
-        public DataPoint(String varname, long timestamp, double value) {
+        public DataPoint(String varname, double timestamp, double value) {
             this.varname = varname;
             this.timestamp = timestamp;
             this.value = value;
@@ -47,7 +46,7 @@ public class TimeseriesStream {
          * Creates the Writer.
          * @param outputStream The output stream to write to.
          */
-        public Writer(OutputStream outputStream) throws IOException {
+        public Writer(OutputStream outputStream) throws Exception {
             this.outputStream = new ObjectOutputStream(outputStream);
             lastTimestamp = 0;
         }
@@ -56,7 +55,7 @@ public class TimeseriesStream {
          * Writes a DataPoint to the output stream.
          * Calls to this function must be done with non-decreasing timestamps.
          */
-        public void write(DataPoint point) throws IllegalArgumentException, IOException {
+        public void write(DataPoint point) throws Exception {
             if (point.timestamp < lastTimestamp) {
                 throw new IllegalArgumentException("Timestamp decreased.");
             }
@@ -78,7 +77,7 @@ public class TimeseriesStream {
          * Creates the Reader.
          * @param inputStream The input stream to read from.
          */
-        public Reader(InputStream inputStream) throws IOException {
+        public Reader(InputStream inputStream) throws Exception {
             this.inputStream = new ObjectInputStream(inputStream);
             nextPoint = null;
         }
@@ -87,7 +86,7 @@ public class TimeseriesStream {
          * Reads a DataPoint from the input stream.
          * @return DataPoint if available, null otherwise.
          */
-        public DataPoint read() throws IOException, ClassNotFoundException {
+        public DataPoint read() throws Exception {
             // Return next data point if stored.
             if (nextPoint != null) {
                 DataPoint ret = nextPoint;
@@ -106,7 +105,7 @@ public class TimeseriesStream {
          * @param time The timestamp to read up to (seconds, inclusive).
          * @return The DataPoint read.
          */
-        public List<DataPoint> readUntil(double time) throws IOException, ClassNotFoundException {
+        public List<DataPoint> readUntil(double time) throws Exception {
             ArrayList<DataPoint> points = new ArrayList<DataPoint>();
             // Read from stream until past time, then store as next.
             while (true) {
