@@ -29,20 +29,20 @@ public class BlackBox {
 
         /**
          * Records the hardware at the time.
+         * @param deviceName The device to record.
          * @param time The time to record hardware at (seconds).
          */
-        public void record(double time) throws Exception {
-            for (HardwareDevice device : hardware) {
-                double value;
-                if (device instanceof DcMotor) {
-                    value = ((DcMotor)device).getPower();
-                } else if (device instanceof Servo) {
-                    value = ((Servo)device).getPosition();
-                } else {
-                    continue;
-                }
-                writer.write(new TimeseriesStream.DataPoint(device.getDeviceName(), time, value));
+        public void record(String deviceName, double time) throws Exception {
+            HardwareDevice device = hardware.get(deviceName);
+            double value;
+            if (device instanceof DcMotor) {
+                value = ((DcMotor)device).getPower();
+            } else if (device instanceof Servo) {
+                value = ((Servo)device).getPosition();
+            } else {
+                return;
             }
+            writer.write(new TimeseriesStream.DataPoint(deviceName, time, value));
         }
 
         // The hardware to record.

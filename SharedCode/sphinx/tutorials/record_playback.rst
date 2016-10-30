@@ -38,7 +38,10 @@ and we'll extend it to record the hardware.
 
     @Teleop(name="RecordedTeleop", group="RecordedTeleop")
     public class RecordedTeleop extends TankDrive {
-
+        // The output file stream.
+        private FileOutputStream outputStream;
+        // The hardware recorder.
+        private BlackBox.Recorder recorder;
     }
 
 You'll notice we've imported the ``BlackBox`` code. We've also imported
@@ -85,7 +88,10 @@ and stop the robot.
 
         try {
             // Record the hardware state at the current time.
-            recorder.record(time);
+            recorder.record("leftFront", time);
+            recorder.record("rightFront", time);
+            recorder.record("leftBack", time);
+            recorder.record("rightBack", time);
         } catch (Exception e) {
             e.printStackTrace();
             requestOpModeStop();
@@ -130,7 +136,10 @@ Teleop class.
 
     @Autonomous(name="PlaybackAuto", group="PlaybackAuto")
     public class PlaybackAuto extends OpMode {
-
+        // The input file stream.
+        private FileInputStream inputStream;
+        // The hardware player.
+        private BlackBox.Player player;
     }
 
 **Open File, Construct Player**. Similar to the recorder, we will now open the

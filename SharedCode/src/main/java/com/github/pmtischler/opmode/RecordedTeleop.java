@@ -36,7 +36,10 @@ public class RecordedTeleop extends MecanumDrive {
         super.loop();
 
         try {
-            recorder.record(time);
+            recorder.record("leftFront", time);
+            recorder.record("rightFront", time);
+            recorder.record("leftBack", time);
+            recorder.record("rightBack", time);
         } catch (Exception e) {
             e.printStackTrace();
             requestOpModeStop();
