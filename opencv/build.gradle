@@ -18,4 +18,45 @@ android {
             aidl.srcDirs = ['src']
         }
     }
+
+    externalNativeBuild {
+        ndkBuild {
+            path "../libs/opencv-native/jni/OpenCV.mk"
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs '../libs/opencv-native/3rdparty/libs/armeabi-v7a',
+             '../libs/opencv-native/libs/armeabi-v7a'
+    }
+}
+
+dependencies {
+    compile (name: 'libIlmImf', ext: 'a')
+    compile (name: 'liblibjasper', ext: 'a')
+    compile (name: 'liblibjpeg', ext: 'a')
+    compile (name: 'liblibpng', ext: 'a')
+    compile (name: 'liblibtiff', ext: 'a')
+    compile (name: 'liblibwebp', ext: 'a')
+    compile (name: 'libtbb', ext: 'a')
+    compile (name: 'libopencv_calib3d', ext: 'a')
+    compile (name: 'libopencv_core', ext: 'a')
+    compile (name: 'libopencv_features2d', ext: 'a')
+    compile (name: 'libopencv_flann', ext: 'a')
+    compile (name: 'libopencv_highgui', ext: 'a')
+    compile (name: 'libopencv_imgcodecs', ext: 'a')
+    compile (name: 'libopencv_imgproc', ext: 'a')
+    compile (name: 'libopencv_java3', ext: 'so')
+    compile (name: 'libopencv_ml', ext: 'a')
+    compile (name: 'libopencv_objdetect', ext: 'a')
+    compile (name: 'libopencv_photo', ext: 'a')
+    compile (name: 'libopencv_shape', ext: 'a')
+    compile (name: 'libopencv_stitching', ext: 'a')
+    compile (name: 'libopencv_superres', ext: 'a')
+    compile (name: 'libopencv_ts', ext: 'a')
+    compile (name: 'libopencv_video', ext: 'a')
+    compile (name: 'libopencv_videoio', ext: 'a')
+    compile (name: 'libopencv_videostab', ext: 'a')
 }

@@ -17,7 +17,9 @@ android {
 
 repositories {
     flatDir {
-        dirs '../libs'
+        dirs '../libs',
+             '../libs/opencv-native/3rdparty/libs/armeabi-v7a',
+             '../libs/opencv-native/libs/armeabi-v7a'
     }
 }
 

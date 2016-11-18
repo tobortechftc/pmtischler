@@ -99,13 +99,15 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
+        classpath 'com.android.tools.build:gradle:2.2.2'
     }
 }
 
 repositories {
     flatDir {
-        dirs '../libs'
+        dirs '../libs',
+             '../libs/opencv-native/3rdparty/libs/armeabi-v7a',
+             '../libs/opencv-native/libs/armeabi-v7a'
     }
 }
 
