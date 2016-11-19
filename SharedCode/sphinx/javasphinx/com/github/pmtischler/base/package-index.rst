@@ -9,6 +9,8 @@ com.github.pmtischler.base
    BlackBox
    BlackBox-Player
    BlackBox-Recorder
+   StateMachine
+   StateMachine-State
    TimeseriesStream
    TimeseriesStream-DataPoint
    TimeseriesStream-Reader

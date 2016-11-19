@@ -7,6 +7,9 @@ com.github.pmtischler.opmode
    :maxdepth: 1
 
    BeaconPress
+   DistanceStateMachine
+   DistanceStateMachine-ForwardUntilDistance
+   DistanceStateMachine-LeftForTime
    MecanumDrive
    PlaybackAuto
    RecordedTeleop
