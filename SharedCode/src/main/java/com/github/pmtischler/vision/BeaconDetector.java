@@ -34,18 +34,38 @@ public class BeaconDetector {
      * Detects a beacon.
      * @param origImg The image to detect the beacon inside. Overwritten with logical image.
      * @param totalClusters The total clusters of colors to find.
-     * @param colors Colors (Nx3 RGB) to search for. Naive red/blue is {[255,
-     * 0, 0], [0, 0, 255]}. You can take pictures with the camera to try and
-     * find a more representative color palette (picture of beacon does not get
-     * pure red and blue).
+     * @param colors Colors (Nx3 RGB) to search for. Naive blue/red is {[255,
+     *   0, 0], [0, 0, 255]}. You can take pictures with the camera to try and
+     *   find a more representative color palette (picture of beacon does not
+     *   get pure red and blue).
      * @return Color centers (Nx2).
      */
     public Mat detect(Mat origImg, int totalClusters, Mat colors) {
         // Parameters selected for problem.
-        int kClusterIterations = 5;
+        int kClusterIterations = colors.height() + 2;
         double kClusterEpsilon = 1.0;
         int kClusterAttempts = 3;
 
+        return detect(origImg, totalClusters, colors, kClusterIterations,
+                      kClusterEpsilon, kClusterAttempts);
+    }
+
+    /**
+     * Detects a beacon.
+     * @param origImg The image to detect the beacon inside. Overwritten with logical image.
+     * @param totalClusters The total clusters of colors to find.
+     * @param colors Colors (Nx3 RGB) to search for. Naive blue/red is {[255,
+     *   0, 0], [0, 0, 255]}. You can take pictures with the camera to try and
+     *   find a more representative color palette (picture of beacon does not
+     *   get pure red and blue).
+     * @param clusterIterations Number of iterations when performing kmeans clustering.
+     * @param clusterEpsilon Epsilon where clustering can be terminated.
+     * @param clusterAttempts Number of attempts (e.g. random initialization) to cluster.
+     * @return Color centers (Nx2).
+     */
+    public Mat detect(Mat origImg, int totalClusters, Mat colors,
+                      int clusterIterations, double clusterEpsilon,
+                      int clusterAttempts) {
         // Resize image to trade accuracy for speed.
         Mat img = new Mat();
         Imgproc.resize(origImg, img,
@@ -72,8 +92,8 @@ public class BeaconDetector {
         Mat centers = new Mat(colors.size(), CvType.CV_32F);  // Center of each cluster.
         Core.kmeans(colorSeq, totalClusters, labels,
                     new TermCriteria(TermCriteria.EPS + TermCriteria.MAX_ITER,
-                                     kClusterIterations, kClusterEpsilon),
-                    kClusterAttempts, Core.KMEANS_RANDOM_CENTERS, centers);
+                                     clusterIterations, clusterEpsilon),
+                    clusterAttempts, Core.KMEANS_RANDOM_CENTERS, centers);
 
         // Find clusters closest to provided colors.
         int[] closestCluster = new int[colors.height()];

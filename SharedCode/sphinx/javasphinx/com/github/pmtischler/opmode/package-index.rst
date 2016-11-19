@@ -6,6 +6,7 @@ com.github.pmtischler.opmode
 .. toctree::
    :maxdepth: 1
 
+   BeaconPress
    MecanumDrive
    PlaybackAuto
    RecordedTeleop

@@ -41,10 +41,11 @@ Methods
 record
 ^^^^^^
 
-.. java:method:: public void record(double time) throws Exception
+.. java:method:: public void record(String deviceName, double time) throws Exception
    :outertype: BlackBox.Recorder
 
    Records the hardware at the time.
 
+   :param deviceName: The device to record.
    :param time: The time to record hardware at (seconds).
 
