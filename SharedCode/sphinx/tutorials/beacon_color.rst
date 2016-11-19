@@ -159,11 +159,11 @@ the left or right, we will actuate a servo to press the beacon button.
 
         // Based on red color position, actuate servo.
         if (positions.get(0, 0)[0] < positions.get(1, 0)[0]) {
-            left.setPosition(90);
+            left.setPosition(1);
             right.setPosition(0);
         } else {
             left.setPosition(0);
-            right.setPosition(90);
+            right.setPosition(1);
         }
     }
 

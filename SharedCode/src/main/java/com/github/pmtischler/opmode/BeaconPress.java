@@ -67,11 +67,11 @@ public class BeaconPress extends OpMode implements Camera.PictureCallback {
         Mat positions = detector.detect(img, 5, colors);
         // If red on left, actuate left servo. Otherwise actuate right.
         if (positions.get(0, 0)[0] < positions.get(1, 0)[0]) {
-            left.setPosition(90);
+            left.setPosition(1);
             right.setPosition(0);
         } else {
             left.setPosition(0);
-            right.setPosition(90);
+            right.setPosition(1);
         }
     }
 
