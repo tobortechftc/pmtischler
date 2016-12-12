@@ -18,12 +18,6 @@ android {
             aidl.srcDirs = ['src']
         }
     }
-
-    externalNativeBuild {
-        ndkBuild {
-            path "../libs/opencv-native/jni/OpenCV.mk"
-        }
-    }
 }
 
 repositories {

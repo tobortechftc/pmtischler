@@ -17,7 +17,7 @@ import org.opencv.imgcodecs.Imgcodecs;
  * It detects which sides are red and blue, and then actuates a servo.
  */
 @Autonomous(name="pmtischler.BeaconPress", group="pmtischler")
-@Disabled
+//@Disabled
 public class BeaconPress extends OpMode implements Camera.PictureCallback {
     /**
      * Creates the detector, initializes the camera.
@@ -25,6 +25,7 @@ public class BeaconPress extends OpMode implements Camera.PictureCallback {
     public void init() {
         // Load the OpenCV library.
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
         // Open the camera.
         camera = Camera.open();
         // No picture yet.
@@ -39,10 +40,11 @@ public class BeaconPress extends OpMode implements Camera.PictureCallback {
         colors = new Mat(red_blue.length, 3, CvType.CV_32F);
         for (int i = 0; i < red_blue.length; i++) {
             for (int d = 0; d < 3; d++) {
-                int[] c = {red_blue[i][d]};
+                double[] c = {red_blue[i][d]};
                 colors.put(i, d, c);
             }
         }
+
         // Get the servos.
         left = (Servo)hardwareMap.get("left_servo");
         right = (Servo)hardwareMap.get("right_servo");
