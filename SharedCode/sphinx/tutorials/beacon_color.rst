@@ -1,6 +1,10 @@
 Beacon Color Detection
 ======================
 
+**NOTE** This tutorial does not yet work. The camera code does not correctly
+take a picture. Once picture is taken, the code does correctly compute the
+left/right of red/blue in the beacon.
+
 In this tutorial you will use the phone's camera to detect which side of the
 image has the red and blue beacon colors. This will rely on color detection,
 clustering, and centroid algorithms. It will use the `OpenCV
@@ -16,6 +20,8 @@ verifies `OpenCV` is setup correctly.
 .. code-block:: java
 
     import android.hardware.Camera;
+    import android.util.Log;
+    import com.github.pmtischler.base.SimpleCamera;
     import com.github.pmtischler.vision.BeaconDetector;
     import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
     import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -24,8 +30,6 @@ verifies `OpenCV` is setup correctly.
     import org.opencv.core.Core;
     import org.opencv.core.CvType;
     import org.opencv.core.Mat;
-    import org.opencv.core.MatOfByte;
-    import org.opencv.imgcodecs.Imgcodecs;
 
     @Autonomous(name="BeaconPress", group="BeaconPress")
     public class BeaconPress extends OpMode {
@@ -46,20 +50,17 @@ line indicating an image was taken and is available for beacon detection.
 .. code-block:: java
 
     public class BeaconPress extends OpMode implements Camera.PictureCallback {
-        // The camera.
-        private Camera camera;
-        // The latest image.
-        private Mat img;
+        // Used to take pictures of the beacon.
+        private SimpleCamera camera;
         // Last image picture time.
         private double lastPictureTime;
 
         public void init() {
             // ... Other code
 
-            // Open the camera.
-            camera = Camera.open();
+            // Create the camera.
+            camera = new SimpleCamera(hardwareMap.appContext);
             // No picture yet.
-            img = null;
             lastPictureTime = 0;
         }
 
@@ -70,28 +71,20 @@ line indicating an image was taken and is available for beacon detection.
                 lastPictureTime = time;
             }
 
-            // Image is needed to continue.
+            // Take picture every 1 second.
+            if (time > 1 + lastPictureTime) {
+                telemetry.addLine("Taking picture.");
+                camera.startCapture();
+                lastPictureTime = time;
+            }
+
+            // Get the latest image.
+            Mat img = camera.takeImage();
             if (img == null) {
+                // Image is not yet available.
                 return;
             }
-            // Log that image is available for detection.
             telemetry.addLine("Image available, detecting position.");
-        }
-
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-            int channels = 3;
-            int width = camera.getParameters().getPictureSize().width;
-            int height = camera.getParameters().getPictureSize().height;
-            if (data.length != width * height * channels) {
-                // Data is not expected shape.
-                throw new IllegalArgumentException(
-                        "data from camera not expected size.");
-            }
-
-            Mat parsedImg = new MatOfByte(data);
-            parsedImg.reshape(channels, height);
-            img = parsedImg;
         }
     }
 

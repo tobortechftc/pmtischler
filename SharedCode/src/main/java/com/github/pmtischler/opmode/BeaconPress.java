@@ -1,6 +1,8 @@
 package com.github.pmtischler.opmode;
 
 import android.hardware.Camera;
+import android.util.Log;
+import com.github.pmtischler.base.SimpleCamera;
 import com.github.pmtischler.vision.BeaconDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -9,8 +11,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.imgcodecs.Imgcodecs;
 
 /**
  * Beacon detector which presses the red beacon side.
@@ -18,7 +18,7 @@ import org.opencv.imgcodecs.Imgcodecs;
  */
 @Autonomous(name="pmtischler.BeaconPress", group="pmtischler")
 //@Disabled
-public class BeaconPress extends OpMode implements Camera.PictureCallback {
+public class BeaconPress extends OpMode {
     /**
      * Creates the detector, initializes the camera.
      */
@@ -26,10 +26,9 @@ public class BeaconPress extends OpMode implements Camera.PictureCallback {
         // Load the OpenCV library.
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-        // Open the camera.
-        camera = Camera.open();
+        // Create the camera.
+        camera = new SimpleCamera(hardwareMap.appContext);
         // No picture yet.
-        img = null;
         lastPictureTime = 0;
 
         // Create the detector.
@@ -56,15 +55,19 @@ public class BeaconPress extends OpMode implements Camera.PictureCallback {
     public void loop() {
         // Take picture every 1 second.
         if (time > 1 + lastPictureTime) {
-            camera.takePicture(null, this, null);
+            telemetry.addLine("Taking picture.");
+            camera.startCapture();
             lastPictureTime = time;
         }
 
-        // Need an image to continue.
+        // Get the latest image.
+        Mat img = camera.takeImage();
         if (img == null) {
+            // Image is not yet available.
             return;
         }
         telemetry.addLine("Image available, detecting position.");
+
         // Use the current image to detect red/blue.
         Mat positions = detector.detect(img, 5, colors);
         // If red on left, actuate left servo. Otherwise actuate right.
@@ -77,26 +80,17 @@ public class BeaconPress extends OpMode implements Camera.PictureCallback {
         }
     }
 
-    @Override
-    public void onPictureTaken(byte[] data, Camera camera) {
-        int channels = 3;
-        int width = camera.getParameters().getPictureSize().width;
-        int height = camera.getParameters().getPictureSize().height;
-        if (data.length != width * height * channels) {
-            // Data is not expected shape.
-            throw new IllegalArgumentException(
-                    "data from camera not expected size.");
-        }
-
-        Mat parsedImg = new MatOfByte(data);
-        parsedImg.reshape(channels, height);
-        img = parsedImg;
+    public void stop() {
+        // Stop the camera so can be used in future runs.
+        camera.stop();
+        camera = null;
     }
 
-    // The camera.
-    private Camera camera;
-    // The latest image.
-    private Mat img;
+    // Tag used for logging.
+    private static final String TAG = "pmtischler.BeaconPress";
+
+    // Used to take pictures of the beacon.
+    private SimpleCamera camera;
     // Last image picture time.
     private double lastPictureTime;
     // The detector.
