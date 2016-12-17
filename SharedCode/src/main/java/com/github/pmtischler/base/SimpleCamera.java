@@ -1,10 +1,13 @@
 package com.github.pmtischler.base;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import android.os.Looper;
 import android.os.Handler;
+import android.os.Environment;
 import android.content.Context;
-import android.view.SurfaceView;
 import android.graphics.PixelFormat;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -24,9 +27,11 @@ public class SimpleCamera implements Camera.PreviewCallback, Camera.PictureCallb
      * Attempts to get the first camera, which should be the back camera.
      */
     public SimpleCamera(final Context context) {
+        this.context = context;
         // Open the camera.
         camera = Camera.open();
         camera.setPreviewCallback(this);
+        camera.enableShutterSound(true);
 
         // Create surface on UI thread.
         new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -34,9 +39,12 @@ public class SimpleCamera implements Camera.PreviewCallback, Camera.PictureCallb
             public void run() {
                 synchronized(camera) {
                     // Create a surface to hold images.
-                    surfaceView = new SurfaceView(context);
+                    surfaceTexture = new SurfaceTexture(10);
+                    surfaceTexture.setDefaultBufferSize(
+                            camera.getParameters().getPictureSize().width,
+                            camera.getParameters().getPictureSize().height);
                     try {
-                        camera.setPreviewDisplay(surfaceView.getHolder());
+                        camera.setPreviewTexture(surfaceTexture);
                     } catch (Exception e) {
                         Log.wtf(TAG, e);
                     }
@@ -52,7 +60,7 @@ public class SimpleCamera implements Camera.PreviewCallback, Camera.PictureCallb
      */
     public boolean startCapture() {
         synchronized(camera) {
-            if (surfaceView == null) {
+            if (surfaceTexture == null) {
                 return false;
             }
 
@@ -86,36 +94,44 @@ public class SimpleCamera implements Camera.PreviewCallback, Camera.PictureCallb
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
         Log.i(TAG, "Preview frame received.");
-        camera.takePicture(null, this, null);
+        camera.takePicture(null, null, this);
     }
 
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
-        Log.i(TAG, "Picture taken.");
-        int channels = 3;
-        int width = camera.getParameters().getPictureSize().width;
-        int height = camera.getParameters().getPictureSize().height;
-        if (data.length != width * height * channels) {
-            // Data is not expected shape.
-            Log.wtf(TAG, "Data from camera not expected size. Actual: " + data.length +
-                         ", Expected: " + width * height * channels);
+        if (data == null) {
+            Log.i(TAG, "No data.");
+            return;
+        }
+        Log.i(TAG, "Picture taken: " + data.length);
+
+        try {
+            File file = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES), "picture.jpg");
+            FileOutputStream output = new FileOutputStream(file);
+            output.write(data);
+            output.close();
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
         }
 
-        Mat parsedImg = new MatOfByte(data);
-        parsedImg.reshape(channels, height);
+        Mat jpeg = new MatOfByte(data);
+        Mat decodedImg = Imgcodecs.imdecode(jpeg, Imgcodecs.CV_LOAD_IMAGE_COLOR);
 
         synchronized(this) {
-            img = parsedImg;
+            img = decodedImg;
         }
     }
 
     // Tag used for logging.
     private static final String TAG = "pmtischler.SimpleCamera";
 
+    // The app context.
+    private Context context;
     // Camera to take pictures with.
     private Camera camera;
     // Surface which holds pictures taken.
-    private SurfaceView surfaceView;
+    private SurfaceTexture surfaceTexture;
     // The latest image.
     private Mat img;
 }

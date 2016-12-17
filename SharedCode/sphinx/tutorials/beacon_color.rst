@@ -1,10 +1,6 @@
 Beacon Color Detection
 ======================
 
-**NOTE** This tutorial does not yet work. The camera code does not correctly
-take a picture. Once picture is taken, the code does correctly compute the
-left/right of red/blue in the beacon.
-
 In this tutorial you will use the phone's camera to detect which side of the
 image has the red and blue beacon colors. This will rely on color detection,
 clustering, and centroid algorithms. It will use the `OpenCV
@@ -40,12 +36,11 @@ verifies `OpenCV` is setup correctly.
         }
     }
 
-**Take Pictures**. The next step is to take pictures with Android's Camera API
-and convert it into `OpenCV` `Mat` class. This involves opening the camera,
-initiating a picture camera, and handling the data when the picture is taken.
-For now, we will take the picture and save it as a variable. After adding the
-following code, look at the debug log and verify that you see the telemetry
-line indicating an image was taken and is available for beacon detection.
+**Take Pictures**. The next step is to take pictures and convert it into
+`OpenCV` `Mat` class. We've provided a `SimpleCamera` to make working with the
+camera easier. After adding the following code, look at the debug log and
+verify that you see the telemetry line indicating an image was taken and is
+available for beacon detection.
 
 .. code-block:: java
 
