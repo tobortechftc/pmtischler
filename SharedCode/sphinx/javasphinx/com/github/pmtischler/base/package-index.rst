@@ -9,6 +9,7 @@ com.github.pmtischler.base
    BlackBox
    BlackBox-Player
    BlackBox-Recorder
+   SimpleCamera
    StateMachine
    StateMachine-State
    TimeseriesStream

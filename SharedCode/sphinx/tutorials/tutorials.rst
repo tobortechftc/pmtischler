@@ -16,3 +16,4 @@ over time.
    record_playback
    beacon_color
    state_machine
+   velocity_vortex

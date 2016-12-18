@@ -1,5 +1,9 @@
 .. java:import:: android.hardware Camera
 
+.. java:import:: android.util Log
+
+.. java:import:: com.github.pmtischler.base SimpleCamera
+
 .. java:import:: com.github.pmtischler.vision BeaconDetector
 
 .. java:import:: com.qualcomm.robotcore.eventloop.opmode Autonomous
@@ -16,17 +20,13 @@
 
 .. java:import:: org.opencv.core Mat
 
-.. java:import:: org.opencv.core MatOfByte
-
-.. java:import:: org.opencv.imgcodecs Imgcodecs
-
 BeaconPress
 ===========
 
 .. java:package:: com.github.pmtischler.opmode
    :noindex:
 
-.. java:type:: @Autonomous @Disabled public class BeaconPress extends OpMode implements Camera.PictureCallback
+.. java:type:: @Autonomous @Disabled public class BeaconPress extends OpMode
 
    Beacon detector which presses the red beacon side. It detects which sides are red and blue, and then actuates a servo.
 
@@ -48,9 +48,9 @@ loop
 
    Detects the colors, actuates the appropriate servo.
 
-onPictureTaken
-^^^^^^^^^^^^^^
+stop
+^^^^
 
-.. java:method:: @Override public void onPictureTaken(byte[] data, Camera camera)
+.. java:method:: public void stop()
    :outertype: BeaconPress
 

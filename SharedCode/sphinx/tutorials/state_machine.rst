@@ -4,13 +4,33 @@ State Machine
 In this tutorial you will implement a `Finite State Machine
 <https://en.wikipedia.org/wiki/Finite-state_machine>`__. A state machine is
 made up of a series of states, and a series of transitions between states. A
-state can be something like "drive forward until distance sensor reads less
-than 3 inches", and a transition can be something like "when it reads less than
-3 inches then change to the drive for time state". In this tutorial, we will
-implement an autonomous mode that drives forward until the distance sensor
-reads less than 3 inches, after which it will drive left for 2 seconds. It uses
-the previous :doc:`mecanum` tutorial for driving, and requires a `setDrive(vD,
-vTheta, thetaD, vTheta)` function.
+state can be something like "drive forward", and a transition can be something
+like "when a distance sensor reads less than 3 inches then change to the drive
+for time state". In this tutorial, we will implement an autonomous mode that
+drives forward until the distance sensor reads less than 3 inches, after which
+it will drive left for 2 seconds. It uses the previous :doc:`mecanum` tutorial
+for driving, and requires a `setDrive(vD, vTheta, thetaD, vTheta)` function.
+
+**Visualization**. State Machines are typically visualized as a `Graph
+<https://en.wikipedia.org/wiki/Graph_(abstract_data_type)>`__. A graph node is
+a state in the state machine, and an edge is a transition. The text on the node
+indicates what the state does, and the text on the edge indicates when the
+transition occurs. Here is the visualization of the state machine we will make:
+
+.. graphviz::
+
+    digraph G {
+        start [label="START"];
+        first [label="Drive Forward"];
+        second [label="Drive Left"];
+        third [label="Brake"];
+        end [label="END"];
+
+        start -> first;
+        first -> second [label="Distance sensor reads less than 3 inches."];
+        second -> third [label="2 seconds has passed."];
+        third -> end;
+    }
 
 **Program Structure**. The first step is to create a skeleton of the final
 program. Notice that there are two internal classes representing the states of
