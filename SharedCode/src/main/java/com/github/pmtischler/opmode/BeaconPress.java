@@ -17,7 +17,7 @@ import org.opencv.core.Mat;
  * It detects which sides are red and blue, and then actuates a servo.
  */
 @Autonomous(name="pmtischler.BeaconPress", group="pmtischler")
-//@Disabled
+@Disabled
 public class BeaconPress extends OpMode {
     /**
      * Creates the detector, initializes the camera.
