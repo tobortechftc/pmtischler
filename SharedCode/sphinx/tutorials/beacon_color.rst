@@ -86,7 +86,13 @@ available for beacon detection.
 **Detect Beacons**. Next we will use the
 :doc:`../javasphinx/com/github/pmtischler/vision/BeaconDetector` class to
 detect the centroids of red and blue, which can be used to determine whether
-the red color is on the left or right.
+the red color is on the left or right. The detector first uses `k-means
+clustering <https://en.wikipedia.org/wiki/K-means_clustering>`__ to find the
+`N+2` most dominant colors in the image. It then finds the dominant colors
+which are closest to red and blue. For all pixels within a cluster, it computes
+the median position of those pixels. The output is a position in the image
+corresponding to the centroid of the red and blue clusters. We then look at the
+centroids to see which is the left-most and right-most color.
 
 .. code-block:: java
 
