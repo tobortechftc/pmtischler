@@ -106,7 +106,7 @@ centroids to see which is the left-most and right-most color.
         colors = new Mat(red_blue.length, 3, CvType.CV_32F);
         for (int i = 0; i < red_blue.length; i++) {
             for (int d = 0; d < 3; d++) {
-                int[] c = {red_blue[i][d]};
+                double[] c = {red_blue[i][d]};
                 colors.put(i, d, c);
             }
         }
