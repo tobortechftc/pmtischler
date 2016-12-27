@@ -55,9 +55,10 @@ public class BeaconPress extends OpMode {
     public void loop() {
         // Take picture every 1 second.
         if (time > 1 + lastPictureTime) {
-            telemetry.addLine("Taking picture.");
-            camera.startCapture();
-            lastPictureTime = time;
+            if (camera.startCapture()) {
+                telemetry.addLine("Taking picture.");
+                lastPictureTime = time;
+            }
         }
 
         // Get the latest image.
@@ -72,9 +73,11 @@ public class BeaconPress extends OpMode {
         Mat positions = detector.detect(img, 5, colors);
         // If red on left, actuate left servo. Otherwise actuate right.
         if (positions.get(0, 0)[0] < positions.get(1, 0)[0]) {
+            Log.i(TAG, "Left beacon.");
             left.setPosition(1);
             right.setPosition(0);
         } else {
+            Log.i(TAG, "Right beacon.");
             left.setPosition(0);
             right.setPosition(1);
         }

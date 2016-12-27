@@ -62,9 +62,10 @@ available for beacon detection.
         public void loop() {
             // Take picture every 1 second.
             if (time > 1 + lastPictureTime) {
-                telemetry.addLine("Taking picture.");
-                camera.startCapture();
-                lastPictureTime = time;
+                if (camera.startCapture()) {
+                    telemetry.addLine("Taking picture.");
+                    lastPictureTime = time;
+                }
             }
 
             // Get the latest image.

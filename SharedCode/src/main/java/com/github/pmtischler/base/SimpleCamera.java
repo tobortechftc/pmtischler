@@ -28,6 +28,8 @@ public class SimpleCamera implements Camera.PreviewCallback, Camera.PictureCallb
      */
     public SimpleCamera(final Context context) {
         this.context = context;
+        takingPicture = false;
+
         // Open the camera.
         camera = Camera.open();
         camera.setPreviewCallback(this);
@@ -64,8 +66,13 @@ public class SimpleCamera implements Camera.PreviewCallback, Camera.PictureCallb
                 return false;
             }
 
-            camera.startPreview();
-            return true;
+            if (takingPicture) {
+                return false;
+            } else {
+                camera.startPreview();
+                takingPicture = true;
+                return true;
+            }
         }
     }
 
@@ -94,7 +101,14 @@ public class SimpleCamera implements Camera.PreviewCallback, Camera.PictureCallb
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
         Log.i(TAG, "Preview frame received.");
-        camera.takePicture(null, null, this);
+        try {
+            camera.takePicture(null, null, this);
+        } catch (Exception e) {
+            Log.e(TAG, "Take picture failed: " + e.toString());
+            synchronized(camera) {
+                takingPicture = false;
+            }
+        }
     }
 
     @Override
@@ -121,6 +135,9 @@ public class SimpleCamera implements Camera.PreviewCallback, Camera.PictureCallb
         synchronized(this) {
             img = decodedImg;
         }
+        synchronized(camera) {
+            takingPicture = false;
+        }
     }
 
     // Tag used for logging.
@@ -132,6 +149,8 @@ public class SimpleCamera implements Camera.PreviewCallback, Camera.PictureCallb
     private Camera camera;
     // Surface which holds pictures taken.
     private SurfaceTexture surfaceTexture;
+    // Whether the camera is already taking a picture.
+    private boolean takingPicture;
     // The latest image.
     private Mat img;
 }
